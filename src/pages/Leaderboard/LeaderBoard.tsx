@@ -1,9 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { teamService } from '@/services';
 
 export default function Leaderboard() {
   const [data, setData] = useState([]);
+  const UPDATE_INTERVAL = 60000; // 1 minute
+
+  const [nextUpdateIn, setNextUpdateIn] = useState(UPDATE_INTERVAL / 1000);
+  const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m}:${s.toString().padStart(2, '0')}`;
+  };
 
   const [sortedData, setSortedData] = useState([]);
   useEffect(() => {
@@ -15,6 +23,22 @@ export default function Leaderboard() {
 
   useEffect(() => {
     getLeaderBoard();
+    const updateLeaderboard = () => {
+      getLeaderBoard();
+      setNextUpdateIn(UPDATE_INTERVAL / 1000);
+    };
+    const intervalId = setInterval(() => {
+      updateLeaderboard();
+    }, UPDATE_INTERVAL);
+
+    const countdownId = setInterval(() => {
+      setNextUpdateIn((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+      clearInterval(countdownId);
+    };
   }, []);
 
   const getLeaderBoard = async () => {
@@ -50,6 +74,16 @@ export default function Leaderboard() {
           <p className='mt-2 text-sm text-cyan-100/70'>
             ZeroTrace — Live Team Rankings
           </p>
+        </motion.div>
+        <motion.div
+          className='mt-2 text-xs text-cyan-200/70'
+          animate={{ opacity: [0.6, 1, 0.6] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          Next update in{' '}
+          <span className='font-mono text-cyan-300'>
+            {formatTime(nextUpdateIn)}
+          </span>
         </motion.div>
 
         {/* Leaderboard Table */}
