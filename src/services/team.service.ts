@@ -50,6 +50,15 @@ class TeamService {
     }
   }
 
+  async getLeaderboard() {
+    try {
+      const response = await axiosInstance.get('/team/leaderboard');
+      return response.data;
+    } catch (error) {
+      handleApiError(error);
+      throw error;
+    }
+  }
   /**
    * Get team details
    */

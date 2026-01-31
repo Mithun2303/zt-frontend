@@ -6,7 +6,6 @@ import react from '@vitejs/plugin-react-swc';
 // https://vite.dev/config/
 export default defineConfig({
   server: {
-    host: '172.20.10.6',
     port: 5173,
   },
   plugins: [react(), tailwindcss()],

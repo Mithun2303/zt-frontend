@@ -13,6 +13,7 @@ import ChallengeDetail from './pages/Challenge/ChallengeDetail.tsx';
 import CreateTeam from './pages/CreateTeam/CreateTeam.tsx';
 import Team from './pages/Team/Team.tsx';
 import ProtectedRoute from './components/ProtectedRoute.tsx';
+import Leaderboard from './pages/Leaderboard/LeaderBoard.tsx';
 
 const App = () => {
   return (
@@ -84,6 +85,7 @@ const App = () => {
 
           {/* Auth routes without Layout */}
           <Route path='/login' element={<Login />} />
+          <Route path='/leaderboard' element={<Leaderboard />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/verify-email' element={<VerifyEmail />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
