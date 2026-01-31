@@ -34,7 +34,7 @@ export interface ResetPasswordDto {
 }
 
 export interface LoginResponse {
-  token: string;
+  accessToken: string;
   user: {
     email: string;
     name: string;
